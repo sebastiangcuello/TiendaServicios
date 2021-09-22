@@ -111,8 +111,6 @@ namespace TiendaServicios.Api.Libro.Tests
         [Fact]
         public async void GuardarLibro()
         {
-            Debugger.Launch(); //para que aparezca el debugger en este metodo
-
             //Creo la base de datos en memoria con la libreria Microsoft.EntityFrameworkCore.InMemory
             var options = new DbContextOptionsBuilder<ContextoLibreria>()
                     .UseInMemoryDatabase(databaseName: "BaseDatosLibro")

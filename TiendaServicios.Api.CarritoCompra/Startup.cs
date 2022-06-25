@@ -32,7 +32,7 @@ namespace TiendaServicios.Api.CarritoCompra
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ILibrosService, LibrosService>();
-            services.AddControllers();
+
             services.AddDbContext<ContextoCarrito>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("ConexionDatabase"));
@@ -48,6 +48,8 @@ namespace TiendaServicios.Api.CarritoCompra
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TiendaServicios.Api.CarritoCompra", Version = "v1" });
             });
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

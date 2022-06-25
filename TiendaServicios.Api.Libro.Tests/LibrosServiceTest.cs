@@ -5,12 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using TiendaServicios.Api.Libro.Aplicacion;
-using TiendaServicios.Api.Libro.Model;
 using TiendaServicios.Api.Libro.Persistencia;
 using Xunit;
 
@@ -125,7 +122,7 @@ namespace TiendaServicios.Api.Libro.Tests
                 Titulo = "Libro de Microservicios"
             };
 
-            var manejador = new Nuevo.Manejador(context);
+            var manejador = new Nuevo.Manejador(context, null);
 
             var resultado = await manejador.Handle(request, new CancellationToken());
 

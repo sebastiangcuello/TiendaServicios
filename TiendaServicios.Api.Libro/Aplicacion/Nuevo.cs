@@ -4,6 +4,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using TiendaServicios.Api.Libro.Persistencia;
+using TiendaServicios.RabbitMQ.Bus.BusRabbit;
+using TiendaServicios.RabbitMQ.Bus.EventoQueue;
 
 namespace TiendaServicios.Api.Libro.Aplicacion
 {
@@ -29,9 +31,11 @@ namespace TiendaServicios.Api.Libro.Aplicacion
         public class Manejador : IRequestHandler<Ejecuta>
         {
             private readonly ContextoLibreria _context;
-            public Manejador(ContextoLibreria context)
+            private readonly IRabbitEventBus _eventBus;
+            public Manejador(ContextoLibreria context, IRabbitEventBus eventBus)
             {
                 _context = context;
+                _eventBus = eventBus;
             }
 
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
@@ -48,10 +52,12 @@ namespace TiendaServicios.Api.Libro.Aplicacion
 
                 var resultado = await _context.SaveChangesAsync();
 
+                _eventBus.Publish(new EmailEventoQueue("sebastiangcuello@hotmail.com", request.Titulo, "Este contenido es un ejemplo"));
+
                 if (resultado > 0)
                 {
                     return Unit.Value;
-                }
+                }     
 
                 throw new Exception("No se pudo insertar la librería material");
             }
